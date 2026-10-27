@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AssignHub – Assignment Submission Portal</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<style>
+:root{--bg:#0f1224;--card:#fff;--ink:#1c2038;--mut:#6b7090;--p1:#6c5ce7;--p2:#00b4d8;--ok:#12b886;--err:#f03e3e;--line:#e6e8f2}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);
+background:radial-gradient(1200px 600px at 10% -10%,#3b2f8f 0,transparent 60%),radial-gradient(900px 500px at 100% 0,#006c8f 0,transparent 55%),var(--bg);min-height:100vh}
+header{max-width:1100px;margin:0 auto;padding:40px 20px 10px;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.brand{display:flex;align-items:center;gap:14px}.logo{font-size:34px;background:linear-gradient(135deg,var(--p1),var(--p2));width:58px;height:58px;border-radius:16px;display:grid;place-items:center;box-shadow:0 8px 24px #6c5ce766}
+h1{margin:0;font-size:28px;letter-spacing:-.5px}.sub{margin:2px 0 0;opacity:.7;font-size:14px}
+.badge{padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;background:#ffffff1a;border:1px solid #ffffff33;backdrop-filter:blur(6px)}
+.badge i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffd43b;margin-right:7px}.badge.live i{background:#51cf66}
+main{max-width:1100px;margin:20px auto 60px;padding:0 20px;display:grid;grid-template-columns:400px 1fr;gap:24px;align-items:start}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:20px;padding:26px;box-shadow:0 20px 50px #0006}
+h2{margin:0 0 4px;font-size:20px}.hint{color:var(--mut);font-size:13px;margin:0 0 18px}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;transition:.2s;background:#fafbff}
+input:focus{outline:none;border-color:var(--p1);box-shadow:0 0 0 4px #6c5ce722;background:#fff}
+input.bad{border-color:var(--err);background:#fff5f5}.msg{color:var(--err);font-size:12.5px;margin-top:5px;min-height:0}
+button{margin-top:22px;width:100%;padding:14px;border:0;border-radius:12px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--p1),var(--p2));box-shadow:0 8px 20px #6c5ce755;transition:.2s}
+button:hover{transform:translateY(-2px);box-shadow:0 12px 26px #6c5ce777}
+#toast{display:none;margin-top:16px;padding:12px 14px;border-radius:12px;font-size:14px;font-weight:600}
+#toast.ok{display:block;background:#e6fcf5;color:#087f5b}#toast.err{display:block;background:#fff5f5;color:#c92a2a}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.count{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;padding:5px 14px;border-radius:99px;font-weight:700;font-size:14px}
+.item{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;transition:.2s}
+.item:hover{border-color:var(--p1);transform:translateX(3px);box-shadow:0 6px 18px #6c5ce71a}
+.av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;background:linear-gradient(135deg,var(--p1),var(--p2))}
+.item b{display:block}.item small{color:var(--mut)}.item a{color:var(--p1);text-decoration:none;font-size:13px;word-break:break-all}
+.item .t{margin-left:auto;text-align:right;font-size:12px;color:var(--mut);white-space:nowrap}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}.empty div{font-size:46px}
+footer{text-align:center;color:#ffffff88;font-size:13px;padding-bottom:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">🎓</div><div><h1>AssignHub</h1><p class="sub">CSC418 DevOps · Assignment Submission Portal</p></div></div>
+  <div class="badge" id="mode"><i></i><span>Connecting…</span></div>
+</header>
+<main>
+  <section class="card">
+    <h2>Submit assignment</h2><p class="hint">Fill in all fields. Paste a link to your work (GitHub, Drive, etc.).</p>
+    <form id="f" novalidate>
+      <label for="name">Student name</label><input id="name" placeholder="e.g. Ali Khan" autocomplete="off"><div class="msg" id="e-name"></div>
+      <label for="reg_no">Registration number</label><input id="reg_no" placeholder="e.g. 2021-CS-101" autocomplete="off"><div class="msg" id="e-reg_no"></div>
+      <label for="title">Assignment title</label><input id="title" placeholder="e.g. DevOps Lab 1" autocomplete="off"><div class="msg" id="e-title"></div>
+      <label for="url">Submission URL</label><input id="url" placeholder="https://github.com/user/repo" autocomplete="off"><div class="msg" id="e-url"></div>
+      <button type="submit">Submit assignment →</button>
+    </form>
+    <div id="toast"></div>
+  </section>
+  <section class="card">
+    <div class="top"><div><h2>Saved submissions</h2><p class="hint" style="margin:0">Newest first</p></div><span class="count" id="count">0</span></div>
+    <div id="list"></div>
+  </section>
+</main>
+<footer>Built with ❤ for CSC418 · Every push is tested automatically by CI</footer>
+<script>
+const FIELDS={name:"Student name is required.",reg_no:"Registration number is required.",title:"Assignment title is required.",url:"Submission URL is required."};
+const $=id=>document.getElementById(id);let api=false;const KEY="assignhub_submissions";
+function validate(d){const e={};for(const k in FIELDS)if(!String(d[k]||"").trim())e[k]=FIELDS[k];
+ const u=String(d.url||"").trim();if(u&&!e.url){try{const p=new URL(u);if(!/^https?:$/.test(p.protocol)||!p.hostname.includes(".")||/\s/.test(u))throw 0}catch{e.url="Submission URL is invalid. Use a full link such as https://github.com/user/repo."}}return e}
+const local={get:()=>{try{return JSON.parse(localStorage.getItem(KEY))||[]}catch{return[]}},
+ set:v=>{try{localStorage.setItem(KEY,JSON.stringify(v))}catch{}}};
+let mem=[];
+async function load(){return api?(await fetch("/api/submissions")).json():(local.get().length?local.get():mem)}
+async function save(d){
+ if(api){const r=await fetch("/api/submissions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});const j=await r.json();return r.ok?{ok:j}:{errors:j.errors}}
+ const e=validate(d);if(!Object.keys(e).length){const l=await load();const rec={id:l.length+1,...Object.fromEntries(Object.keys(FIELDS).map(k=>[k,d[k].trim()])),submitted_at:new Date().toISOString()};const n=[...l,rec];mem=n;local.set(n);return{ok:rec}}
+ return{errors:e}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function render(){const l=(await load()).slice().reverse();$("count").textContent=l.length;
+ $("list").innerHTML=l.length?l.map(s=>`<div class="item"><div class="av">${esc(s.name[0].toUpperCase())}</div><div><b>${esc(s.title)}</b><small>${esc(s.name)} · ${esc(s.reg_no)}</small><br><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div><div class="t">${new Date(s.submitted_at).toLocaleString()}</div></div>`).join(""):'<div class="empty"><div>📭</div>No submissions yet. Be the first!</div>'}
+function showErrors(e){for(const k in FIELDS){$("e-"+k).textContent=e[k]||"";$(k).classList.toggle("bad",!!e[k])}}
+$("f").addEventListener("submit",async ev=>{ev.preventDefault();const d=Object.fromEntries(Object.keys(FIELDS).map(k=>[k,$(k).value]));
+ const r=await save(d);const t=$("toast");
+ if(r.errors){showErrors(r.errors);t.className="err";t.textContent="⚠ Submission rejected: "+Object.values(r.errors).join(" ");return}
+ showErrors({});$("f").reset();t.className="ok";t.textContent="✓ Submission saved successfully!";render();setTimeout(()=>t.className="",4000)});
+(async()=>{try{const r=await fetch("/api/submissions");api=r.ok&&(r.headers.get("content-type")||"").includes("json")}catch{api=false}
+ const m=$("mode");m.className="badge"+(api?" live":"");m.querySelector("span").textContent=api?"Live · server storage":"Demo mode · browser storage";render()})();
+</script>
+</body>
+</html>
