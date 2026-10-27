@@ -36,6 +36,6 @@ Local end-to-end check: start the receiver in one terminal, run the tests in ano
 
 ## Secrets (Settings → Secrets and variables → Actions)
 `REPORT_URL`, `REPORT_TOKEN` (optional), and for the e-mail bonus `EMAIL_USER`, `EMAIL_PASS` (Gmail App Password), `EMAIL_TO`.
-
+Test update for passing run
 ## GitHub Pages (bonus)
 Settings → Pages → Source: **GitHub Actions**. Deployment runs only on `main` and only if tests pass.
