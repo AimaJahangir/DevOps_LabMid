@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 REQUIRED = {
     "name": "Student name is required.",
-    "reg_no": "Registration number is required.",
+ #   "reg_no": "Registration number is required.",
     "title": "Assignment title is required.",
     "url": "Submission URL is required.",
 }
